@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
 
-public class RandomColor : MonoBehaviour
+public class RandomColorAssigner : MonoBehaviour
 {
     [SerializeField] private Color _default;
     private readonly List<Color> _colors = new();
