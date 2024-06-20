@@ -35,11 +35,6 @@ public class Spawner : MonoBehaviour
         cube.transform.position = new Vector3(GetRandomPosition(), dropHeight, GetRandomPosition());
         cube.LifeSpanEnded += ReleaseObject;
         cube.gameObject.SetActive(true);
-
-        Debug.Log($"Выключиные - {_pool.CountInactive}");
-        Debug.Log($"Включиные - {_pool.CountActive}");
-        Debug.Log($"Все - {_pool.CountAll}");
-        Debug.ClearDeveloperConsole();
     }
 
     private void ReleaseObject(Cube cube)
@@ -56,11 +51,11 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator StartSpawning()
     {
-        while (true)
+        while (enabled)
         {
-            _pool.Get();
-            
             yield return new WaitForSeconds(_spawnDelay);
+
+            _pool.Get();
         }
     }
 }
