@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(RandomColor), typeof(Rigidbody))]
+[RequireComponent(typeof(RandomColorAssigner), typeof(Rigidbody))]
 
 public class Cube: MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class Cube: MonoBehaviour
     {
         if (collision.collider.TryGetComponent(out Platform _) && _notHasTouched)
         {
-            gameObject.AddComponent<RandomColor>().Replace();
+            gameObject.AddComponent<RandomColorAssigner>().Replace();
 
             StartCoroutine(ItemShutdownTimer());
 
@@ -50,7 +50,7 @@ public class Cube: MonoBehaviour
 
     private void ReturnDefaultValues()
     {
-        gameObject.AddComponent<RandomColor>().Default();
+        gameObject.AddComponent<RandomColorAssigner>().Default();
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.transform.rotation = new Quaternion();
         _notHasTouched = true;
