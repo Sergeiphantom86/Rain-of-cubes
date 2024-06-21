@@ -6,28 +6,31 @@ using UnityEngine;
 
 public class Cube: MonoBehaviour
 {
-    private bool _notHasTouched;
+    private bool _hasTouched;
+    private RandomColorAssigner _randomColorAssigner;
 
     public event Action<Cube> LifeSpanEnded;
 
     private void Start()
     {
-        _notHasTouched = true;
+        _randomColorAssigner = GetComponent<RandomColorAssigner>();
+        
+        _hasTouched = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.TryGetComponent(out Platform _) && _notHasTouched)
+        if (collision.collider.TryGetComponent(out Platform _) && _hasTouched)
         {
-            gameObject.AddComponent<RandomColorAssigner>().Replace();
+            _randomColorAssigner.Replace();
 
-            StartCoroutine(ItemShutdownTimer());
+            StartCoroutine(TurnOffElement());
 
-            _notHasTouched = false;
+            _hasTouched = false;
         }
     }
 
-    private IEnumerator ItemShutdownTimer()
+    private IEnumerator TurnOffElement()
     {
         int min = 2;
         int max = 6;
@@ -50,9 +53,8 @@ public class Cube: MonoBehaviour
 
     private void ReturnDefaultValues()
     {
-        gameObject.AddComponent<RandomColorAssigner>().Default();
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        gameObject.transform.rotation = new Quaternion();
-        _notHasTouched = true;
+        _randomColorAssigner.Default();
+        transform.rotation = new Quaternion();
+        _hasTouched = true;
     }
 }
