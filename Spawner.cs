@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour
     {
         _pool = new ObjectPool<Cube>(
             createFunc: () => Instantiate(_cube),
-            actionOnGet: (cube) => UseOnGet(cube),
+            actionOnGet:(cube) => UseOnGet(cube),
             actionOnRelease: (cube) => cube.gameObject.SetActive(false),
             actionOnDestroy: (cube) => Destroy(cube),
             collectionCheck: true,
@@ -34,19 +34,19 @@ public class Spawner : MonoBehaviour
         
         cube.transform.position = new Vector3(GetRandomPosition(), dropHeight, GetRandomPosition());
         cube.LifeSpanEnded += ReleaseObject;
-        cube.gameObject.SetActive(true);
-    }
-
-    private void ReleaseObject(Cube cube)
-    {
-        _pool.Release(cube);
-        
-        cube.LifeSpanEnded -= ReleaseObject;
+        gameObject.SetActive(true);
     }
 
     private float GetRandomPosition(float positionX = 5, float positionY = 35)
     {
         return Random.Range(positionX, positionY);
+    }
+
+    private void ReleaseObject(Cube cube)
+    {
+        _pool.Release(cube);
+
+        cube.LifeSpanEnded -= ReleaseObject;
     }
 
     private IEnumerator StartSpawning()
