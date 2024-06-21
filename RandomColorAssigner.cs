@@ -7,17 +7,23 @@ public class RandomColorAssigner : MonoBehaviour
 {
     [SerializeField] private Color _default;
     private readonly List<Color> _colors = new();
+    private Renderer _renderer;
+
+    private void Start()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
 
     public void Replace()
     {
         AddColors();
 
-        gameObject.GetComponent<Renderer>().material.color = _colors[Random.Range(0, _colors.Count)];
+        _renderer.material.color = _colors[Random.Range(0, _colors.Count)];
     }
 
     public void Default()
     {
-        gameObject.GetComponent<Renderer>().material.color = _default;
+        _renderer.material.color = _default;
     }
 
     private void AddColors()
